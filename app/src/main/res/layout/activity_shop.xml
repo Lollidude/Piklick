@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0077ff"
+    tools:context="boredomskingdom.piklick.ShopActivity">
+
+    <TextView
+        android:id="@+id/balance"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="50dp"
+        android:background="#ffffff"
+        android:stretchMode="columnWidth"
+        android:text="@string/balance"
+        android:textAlignment="center"
+        android:textSize="35sp" />
+
+    <GridView
+        android:id="@+id/shop_categories"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/balance"
+        android:columnWidth="150dp"
+        android:horizontalSpacing="20dp"
+        android:numColumns="2"
+        android:stretchMode="spacingWidthUniform"
+        android:verticalSpacing="20dp" />
+</RelativeLayout>
