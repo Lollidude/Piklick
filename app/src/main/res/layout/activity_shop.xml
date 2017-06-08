@@ -25,7 +25,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/balance"
         android:columnWidth="150dp"
-        android:horizontalSpacing="20dp"
+        android:horizontalSpacing="10dp"
+        android:layout_centerHorizontal="true"
         android:numColumns="2"
         android:stretchMode="spacingWidthUniform"
         android:verticalSpacing="20dp" />

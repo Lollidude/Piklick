@@ -1,8 +1,10 @@
 package boredomskingdom.piklick;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -19,69 +21,95 @@ import java.util.Locale;
 
 public class ShopActivity extends AppCompatActivity {
 
-    int money;
+    int mMoney;
+    int tempMoney;
+    Intent returnIntent;
     TextView mBalance;
     GridView mShopCategories;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_shop);
         Intent intent = getIntent();
-        money = intent.getIntExtra("money", 0);
+        mMoney = intent.getIntExtra("money", 0);
+        tempMoney = mMoney;
+
         mBalance = (TextView) findViewById(R.id.balance);
         String balance = mBalance.getText().toString();
-        mBalance.setText(String.format(Locale.US, balance, money));
+        mBalance.setText(String.format(Locale.US, balance, mMoney));
+
+
         mShopCategories = (GridView) findViewById(R.id.shop_categories);
         mShopCategories.setAdapter(new ImageAdapter(this));
         mShopCategories.setOnItemClickListener(new OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id){
-                Toast.makeText(ShopActivity.this, "Position: " + position, Toast.LENGTH_LONG).show();
-                view.setBackgroundColor(Color.parseColor("#ff0000"));
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ShopPurchase shopPurchase = new ShopPurchase(ShopActivity.this, mMoney);
+                returnIntent = new Intent();
+                switch (position) {
+                    case 0:
+                        shopPurchase.changeBackground();
+                        mMoney-=150;
+                        break;
+                    default:
+                        break;
+                }
+                mBalance.setText(String.format(Locale.US, getString(R.string.balance), mMoney));
+                returnIntent.putExtra("money", mMoney);
+                setResult(Activity.RESULT_OK, returnIntent);
             }
         });
     }
-}
 
-class ImageAdapter extends BaseAdapter {
+    class ImageAdapter extends BaseAdapter {
 
-    private Context mContext;
+        private Context mContext;
 
-    public ImageAdapter(Context c) {
-        mContext = c;
-    }
-
-    @Override
-    public int getCount() {
-        return 8;
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ImageView imageView;
-        if (convertView == null) {
-            imageView = new ImageView(mContext);
-            imageView.setLayoutParams(new GridView.LayoutParams(250, 250));
-            imageView.setScaleType(ImageView.ScaleType.CENTER);
-            imageView.setPadding(85, 85, 85, 85);
-        } else {
-            imageView = (ImageView) convertView;
+        public ImageAdapter(Context c) {
+            mContext = c;
         }
-        imageView.setImageResource(mImages[position]);
-        return imageView;
+
+        @Override
+        public int getCount() {
+            return mImages.length;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ImageView imageView;
+            if (convertView == null) {
+                imageView = new ImageView(mContext);
+                imageView.setLayoutParams(new GridView.LayoutParams(275, 275));
+                imageView.setScaleType(ImageView.ScaleType.CENTER);
+            } else {
+                imageView = (ImageView) convertView;
+            }
+            imageView.setImageResource(mImages[position]);
+            return imageView;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return null;
+        }
+
+        public int[] mImages = {R.drawable.temp_shop_icon, R.drawable.temp_shop_icon,
+                R.drawable.temp_shop_icon, R.drawable.temp_shop_icon, R.drawable.temp_shop_icon,
+                R.drawable.temp_shop_icon};
     }
 
     @Override
-    public long getItemId(int position) {
-        return 0;
+    protected void onStop() {
+        super.onStop();
+        setResult(
+                tempMoney > mMoney ? RESULT_OK : RESULT_CANCELED,
+                returnIntent
+        );
     }
-
-    @Override
-    public Object getItem(int position) {
-        return null;
-    }
-
-    public int[] mImages = {R.drawable.temp_shop_icon, R.drawable.temp_shop_icon,
-            R.drawable.temp_shop_icon, R.drawable.temp_shop_icon, R.drawable.temp_shop_icon,
-            R.drawable.temp_shop_icon, R.drawable.temp_shop_icon, R.drawable.temp_shop_icon};
 }
