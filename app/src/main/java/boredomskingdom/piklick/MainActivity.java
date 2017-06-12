@@ -1,6 +1,5 @@
 package boredomskingdom.piklick;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -8,6 +7,9 @@ import android.graphics.Color;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -21,20 +23,24 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity {
 
     int mMoney;
-    int mUpgrade;
+    int mTapValue;
     int mBgColor;
     TextView mDisplayCoins;
     RelativeLayout mRLMain;
+    SharedPreferences sharedPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        //setting values
+
+        sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         mMoney = sharedPref.getInt("money", 0);
-        mUpgrade = sharedPref.getInt("upgrade", 1);
-        mBgColor = Color.parseColor(sharedPref.getString("bgColor", "#ffffff"));
+        mTapValue = sharedPref.getInt("tapValue", 10000);
+        mBgColor = sharedPref.getInt("bgColor", Color.parseColor("#FFFFFF"));
+
 
         mDisplayCoins = (TextView) findViewById(R.id.display_money);
         mDisplayCoins.setText(String.format(Locale.US, "%d", mMoney));
@@ -46,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         tapButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mMoney += mUpgrade;
+                mMoney += mTapValue;
                 mDisplayCoins.setText(String.format(Locale.US, "%d", mMoney));
             }
         });
@@ -82,13 +88,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         mDisplayCoins.setText(String.format(Locale.US, "%d", mMoney));
+        int bgColor = sharedPref.getInt("bgColor", Color.parseColor("#FFFFFF"));
+        mRLMain.setBackgroundColor(bgColor);
     }
 
-    @Override
-    protected void onPostResume() {
-        super.onPostResume();
-        mDisplayCoins.setText(String.format(Locale.US, "%d", mMoney));
-    }
 
     @Override
     protected void onStop() {

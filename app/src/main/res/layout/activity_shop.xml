@@ -1,33 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rl_shop"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0077ff"
+    android:background="#0000ff"
+    android:fitsSystemWindows="true"
     tools:context="boredomskingdom.piklick.ShopActivity">
 
-    <TextView
-        android:id="@+id/balance"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="50dp"
-        android:background="#ffffff"
-        android:stretchMode="columnWidth"
-        android:text="@string/balance"
-        android:textAlignment="center"
-        android:textSize="35sp" />
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        style="@style/AppTheme.NoActionBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:textSize="35sp"
+        android:title="@string/balance">
+
+
+    </android.support.v7.widget.Toolbar>
 
     <GridView
         android:id="@+id/shop_categories"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/balance"
-        android:columnWidth="150dp"
-        android:horizontalSpacing="10dp"
+        android:layout_below="@id/toolbar"
         android:layout_centerHorizontal="true"
+        android:columnWidth="140dp"
+        android:horizontalSpacing="10dp"
         android:numColumns="2"
+        android:paddingTop="15dp"
         android:stretchMode="spacingWidthUniform"
         android:verticalSpacing="20dp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/shop_categories"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="10dp"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/toolbar_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/balance"
+            android:theme="@style/ShopTV" />
+    </RelativeLayout>
+
+
 </RelativeLayout>

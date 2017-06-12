@@ -20,7 +20,7 @@
         </activity>
         <activity android:name=".ShopActivity"
             android:label="Shop"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme.NoActionBar">
         </activity>
     </application>
 

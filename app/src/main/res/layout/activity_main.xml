@@ -15,7 +15,8 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:paddingBottom="25dp"
-        android:src="@mipmap/icon" />
+        android:src="@mipmap/icon"
+        android:layout_centerInParent="true"/>
 
     <TextView
         android:id="@+id/display_money"
