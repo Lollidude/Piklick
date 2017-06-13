@@ -8,11 +8,12 @@ import android.widget.Toast;
 import java.util.Locale;
 import java.util.Random;
 
-public class ShopPurchase{
+public class ShopPurchase {
 
     int mMoney;
 
     Context mContext;
+
     public ShopPurchase(Context c) {
         mContext = c;
     }
@@ -27,6 +28,7 @@ public class ShopPurchase{
         String toastString = "You bought a " + item + " for %d coins";
         Toast.makeText(mContext, String.format(Locale.US, toastString, cost), Toast.LENGTH_LONG).show();
     }
+
     int randomColor() {
         String values = "ABCDEF0123456789";
         char[] tempColor = new char[6];
@@ -38,5 +40,11 @@ public class ShopPurchase{
             color += x;
 
         return Color.parseColor(color);
+    }
+
+    void notEnough(int cost) {
+        Toast.makeText(mContext, String.format(
+                Locale.US, "You need %d for this", cost),
+                Toast.LENGTH_SHORT).show();
     }
 }

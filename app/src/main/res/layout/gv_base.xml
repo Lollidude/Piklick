@@ -11,6 +11,6 @@
         android:layout_below="@+id/gv_image"
         android:textAlignment="center"
         android:textSize="20sp"
-        android:layout_width="140dp"
+        android:layout_width="125dp"
         android:layout_height="wrap_content"/>
 </RelativeLayout>

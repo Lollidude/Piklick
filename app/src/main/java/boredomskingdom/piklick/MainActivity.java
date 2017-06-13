@@ -7,15 +7,11 @@ import android.graphics.Color;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.Locale;
 
@@ -64,38 +60,30 @@ public class MainActivity extends AppCompatActivity {
                 Context context = MainActivity.this;
                 Class destination = ShopActivity.class;
                 Intent intent = new Intent(context, destination);
-                intent.putExtra("money", mMoney);
-                startActivityForResult(intent, 1);
+                startActivity(intent);
             }
         });
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == RESULT_OK)
-        mMoney = data.getIntExtra("money", 0);
-    }
-
-    public void save() {
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        SharedPreferences.Editor editor = sharedPrefs.edit();
-        editor.putInt("money", mMoney);
-        editor.apply();
+    protected void onPause() {
+        super.onPause();
+        save();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        mMoney = sharedPref.getInt("money", mMoney);
         mDisplayCoins.setText(String.format(Locale.US, "%d", mMoney));
         int bgColor = sharedPref.getInt("bgColor", Color.parseColor("#FFFFFF"));
         mRLMain.setBackgroundColor(bgColor);
     }
 
-
-    @Override
-    protected void onStop() {
-        save();
-        super.onStop();
+    public void save() {
+        sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putInt("money", mMoney);
+        editor.apply();
     }
 }
